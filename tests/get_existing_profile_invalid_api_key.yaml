@@ -1,0 +1,49 @@
+---
+version: 1
+interactions:
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key invalid-api-key
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ
+    method: GET
+  response:
+    body: '{"errors":[{"id":"451e99c2-51b8-402b-9abb-882e997a18ce","status":401,"code":"not_authenticated","title":"Authentication
+      credentials were not provided.","detail":"Missing or invalid private key.","source":{"pointer":"/data/"}}]}'
+    headers:
+      Allow:
+      - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fba68b7de78c032-VNO
+      Content-Length:
+      - "227"
+      Content-Security-Policy-Report-Only:
+      - object-src 'none'; frame-ancestors 'self'; base-uri 'none'; script-src 'strict-dynamic'
+        'unsafe-eval'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Thu, 24 Aug 2023 09:01:09 GMT
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      Www-Authenticate:
+      - ('Bearer', 'Klaviyo-API-Key')
+      X-Content-Type-Options:
+      - nosniff
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 401 Unauthorized
+    code: 401
+    duration: ""

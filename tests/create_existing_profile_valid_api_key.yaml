@@ -1,0 +1,61 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{"email":"sarah.mason@klaviyo-demo.com","phone_number":"+15005550006","external_id":"63f64a2b-c6bf-40c7-b81f-bed08162edbe","anonymous_id":"anon-63f64a2b-c6bf-40c7-b81f-bed08162edbe","first_name":"Sarah","last_name":"Mason","organization":"Klaviyo","title":"Engineer","image":"https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg","location":{"address1":"89
+      E 42nd St","address2":"1st floor","city":"New York","country":"United States","latitude":56,"longitude":24,"region":"NY","zip":"10017","timezone":"America/New_York"},"properties":{"pseudonym":"Dr.
+      Octopus"}},"type":"profile"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles
+    method: POST
+  response:
+    body: '{"errors":[{"id":"e0907b3f-c6d4-4c64-aa4c-51247aec7a4e","status":409,"code":"duplicate_profile","title":"Conflict.","detail":"A
+      profile already exists with one of these identifiers.","source":{"pointer":"/data/attributes"},"meta":{"duplicate_profile_id":"01H8HKMDG8F4MN7PSRZ4YQYNVQ"}}]}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fb4e0ec3bddc035-VNO
+      Cid:
+      - Ub4xp8
+      Content-Length:
+      - "286"
+      Content-Security-Policy-Report-Only:
+      - base-uri 'none'; frame-ancestors 'self'; object-src 'none'; script-src 'strict-dynamic'
+        'unsafe-eval'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Wed, 23 Aug 2023 16:54:39 GMT
+      Ratelimit-Limit:
+      - 700, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "699"
+      Ratelimit-Reset:
+      - "22"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2022-10-17"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 409 Conflict
+    code: 409
+    duration: ""

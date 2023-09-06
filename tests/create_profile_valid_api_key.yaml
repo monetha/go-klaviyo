@@ -1,0 +1,62 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{"email":"sarah.mason@klaviyo-demo.com","phone_number":"+15005550006","external_id":"63f64a2b-c6bf-40c7-b81f-bed08162edbe","anonymous_id":"anon-63f64a2b-c6bf-40c7-b81f-bed08162edbe","first_name":"Sarah","last_name":"Mason","organization":"Klaviyo","title":"Engineer","image":"https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg","location":{"address1":"89
+      E 42nd St","address2":"1st floor","city":"New York","country":"United States","latitude":56,"longitude":24,"region":"NY","zip":"10017","timezone":"America/New_York"},"properties":{"pseudonym":"Dr.
+      Octopus"}},"type":"profile"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles
+    method: POST
+  response:
+    body: '{"data":{"type":"profile","id":"01H8HKMDG8F4MN7PSRZ4YQYNVQ","attributes":{"email":"sarah.mason@klaviyo-demo.com","phone_number":"+15005550006","external_id":"63f64a2b-c6bf-40c7-b81f-bed08162edbe","anonymous_id":"anon-63f64a2b-c6bf-40c7-b81f-bed08162edbe","first_name":"Sarah","last_name":"Mason","organization":"Klaviyo","title":"Engineer","image":"https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg","created":"2023-08-23T16:28:52.122143+00:00","updated":"2023-08-23T16:28:52.122195+00:00","last_event_date":null,"location":{"address1":"89
+      E 42nd St","address2":"1st floor","city":"New York","country":"United States","latitude":56,"longitude":24,"region":"NY","zip":"10017","timezone":"America/New_York"},"properties":{"pseudonym":"Dr.
+      Octopus"},"subscriptions":null},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/relationships/lists/","related":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/lists/"}},"segments":{"links":{"self":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/relationships/segments/","related":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/segments/"}}},"links":{"self":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/"}}}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fb4bb27f93dc035-VNO
+      Cid:
+      - Ub4xp8
+      Content-Length:
+      - "1282"
+      Content-Security-Policy-Report-Only:
+      - script-src 'strict-dynamic' 'unsafe-eval'; frame-ancestors 'self'; object-src
+        'none'; base-uri 'none'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Wed, 23 Aug 2023 16:28:52 GMT
+      Ratelimit-Limit:
+      - 700, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "699"
+      Ratelimit-Reset:
+      - "9"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2022-10-17"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 201 Created
+    code: 201
+    duration: ""

@@ -1,0 +1,55 @@
+---
+version: 1
+interactions:
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles/UQHWDB2XIYWHF9GYUWCY04KU8O
+    method: GET
+  response:
+    body: '{"errors":[{"id":"4011a5be-d5e3-4722-8245-ff712710f2e6","status":404,"code":"not_found","title":"Not
+      found.","detail":"A profile with id UQHWDB2XIYWHF9GYUWCY04KU8O does not exist.","source":{"pointer":"/data/"}}]}'
+    headers:
+      Allow:
+      - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fb4dc861c3ec035-VNO
+      Cid:
+      - Ub4xp8
+      Content-Security-Policy-Report-Only:
+      - object-src 'none'; base-uri 'none'; script-src 'strict-dynamic' 'unsafe-eval';
+        frame-ancestors 'self'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Wed, 23 Aug 2023 16:51:38 GMT
+      Ratelimit-Limit:
+      - 700, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "699"
+      Ratelimit-Reset:
+      - "22"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2022-10-17"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 404 Not Found
+    code: 404
+    duration: ""

@@ -1,0 +1,54 @@
+---
+version: 1
+interactions:
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles?fields%5Bprofile%5D=email%2Cphone_number&page%5Bsize%5D=3
+    method: GET
+  response:
+    body: '{"data":[{"type":"profile","id":"01G80YY35G3GCMN0B7V9WFR408","attributes":{"email":"dummyaccount@monetha.io","phone_number":null},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profiles/01G80YY35G3GCMN0B7V9WFR408/relationships/lists/","related":"https://a.klaviyo.com/api/profiles/01G80YY35G3GCMN0B7V9WFR408/lists/"}},"segments":{"links":{"self":"https://a.klaviyo.com/api/profiles/01G80YY35G3GCMN0B7V9WFR408/relationships/segments/","related":"https://a.klaviyo.com/api/profiles/01G80YY35G3GCMN0B7V9WFR408/segments/"}}},"links":{"self":"https://a.klaviyo.com/api/profiles/01G80YY35G3GCMN0B7V9WFR408/"}},{"type":"profile","id":"01A9Y1C5TP3688J6ZTG0Y0VK2Z","attributes":{"email":"no@email.com","phone_number":null},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profiles/01G9Y1C5TP3688J6ZQG0Y0VK2Z/relationships/lists/","related":"https://a.klaviyo.com/api/profiles/01G9Y1C5TP3688J6ZQG0Y0VK2Z/lists/"}},"segments":{"links":{"self":"https://a.klaviyo.com/api/profiles/01G9Y1C5TP3688J6ZQG0Y0VK2Z/relationships/segments/","related":"https://a.klaviyo.com/api/profiles/01G9Y1C5TP3688J6ZQG0Y0VK2Z/segments/"}}},"links":{"self":"https://a.klaviyo.com/api/profiles/01G9Y1C5TP3688J6ZQG0Y0VK2Z/"}},{"type":"profile","id":"01G9Y1C5YCVNK30BRTJP65EG3C","attributes":{"email":"test@email.com","phone_number":null},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profiles/01G9Y1C5YTVNK30NRTJP65EG3C/relationships/lists/","related":"https://a.klaviyo.com/api/profiles/01G9Y1C5YTVNK30NRTJP65EG3C/lists/"}},"segments":{"links":{"self":"https://a.klaviyo.com/api/profiles/01G9Y1C5YTVNK30NRTJP65EG3C/relationships/segments/","related":"https://a.klaviyo.com/api/profiles/01G9Y1C5YTVNK30NRTJP65EG3C/segments/"}}},"links":{"self":"https://a.klaviyo.com/api/profiles/01G9Y1C5YTVNK30NRTJP65EG3C/"}}],"links":{"self":"https://a.klaviyo.com/api/profiles?fields%5Bprofile%5D=email%2Cphone_number&page%5Bsize%5D=3","next":"https://a.klaviyo.com/api/profiles?fields%5Bprofile%5D=email%2Cphone_number&page%5Bsize%5D=3&page%5Bcursor%5D=bmV4dDo6aWQ6OjAxRzlZMUM1WVRWTkszME5SVEpQNjVFRzND","prev":null}}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fbcd86ffd52c03c-VNO
+      Cid:
+      - Ub4xp8
+      Content-Security-Policy-Report-Only:
+      - base-uri 'none'; frame-ancestors 'self'; object-src 'none'; script-src 'strict-dynamic'
+        'unsafe-eval'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Thu, 24 Aug 2023 16:06:58 GMT
+      Ratelimit-Limit:
+      - 700, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "699"
+      Ratelimit-Reset:
+      - "3"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2022-10-17"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 200 OK
+    code: 200
+    duration: ""

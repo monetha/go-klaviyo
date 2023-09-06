@@ -1,0 +1,53 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{"anonymous_id":"anon-63f64a2b-c6bf-40c7-b81f-bed08162edbe","email":"sarah.mason@klaviyo-demo.com","external_id":"63f64a2b-c6bf-40c7-b81f-bed08162edbe","first_name":"Sarah","image":"https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg","last_name":"Mason","location":{"address1":"89
+      E 42nd St","address2":"1st floor","city":"New York","country":"United States","latitude":56,"longitude":24,"region":"NY","timezone":"America/New_York","zip":"10017"},"organization":"Klaviyo","phone_number":"+15005550006","properties":{"pseudonym":"Dr.
+      Octopus"},"title":"Engineer"},"id":"01H8HKMDG8F4MN7PSRZ4YQYNVQ","type":"profile"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key invalid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ
+    method: PATCH
+  response:
+    body: '{"errors":[{"id":"4e84537d-a614-4315-a95e-9be0e27a3caa","status":401,"code":"not_authenticated","title":"Authentication
+      credentials were not provided.","detail":"Missing or invalid private key.","source":{"pointer":"/data/"}}]}'
+    headers:
+      Allow:
+      - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fbb7b3a6fefffec-VNO
+      Content-Length:
+      - "227"
+      Content-Security-Policy-Report-Only:
+      - script-src 'strict-dynamic' 'unsafe-eval'; frame-ancestors 'self'; base-uri
+        'none'; object-src 'none'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Thu, 24 Aug 2023 12:08:34 GMT
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      Www-Authenticate:
+      - ('Bearer', 'Klaviyo-API-Key')
+      X-Content-Type-Options:
+      - nosniff
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 401 Unauthorized
+    code: 401
+    duration: ""

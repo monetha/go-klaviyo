@@ -1,0 +1,59 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{"anonymous_id":"anon-63f64a2b-c6bf-40c7-b81f-bed08162edbe","email":"sarah.mason@klaviyo-demo.com","external_id":"63f64a2b-c6bf-40c7-b81f-bed08162edbe","first_name":"Sarah","image":"https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg","last_name":"Mason","location":{"address1":"89
+      E 42nd St","address2":"1st floor","city":"New York","country":"United States","latitude":56,"longitude":24,"region":"NY","timezone":"America/New_York","zip":"10017"},"organization":"Klaviyo","phone_number":"+15005550006","properties":{"pseudonym":"Dr.
+      Octopus"},"title":"Engineer"},"id":"UQHWDB2XIYWHF9GYUWCY04KU8O","type":"profile"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles/UQHWDB2XIYWHF9GYUWCY04KU8O
+    method: PATCH
+  response:
+    body: '{"errors":[{"id":"42fe06ae-8fd9-4da9-98a9-92e754d08322","status":404,"code":"not_found","title":"Not
+      found.","detail":"A profile with id UQHWDB2XIYWHF9GYUWCY04KU8O does not exist.","source":{"pointer":"/data/"}}]}'
+    headers:
+      Allow:
+      - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 7fbbca32bb5abc13-VNO
+      Cid:
+      - Ub4xp8
+      Content-Security-Policy-Report-Only:
+      - frame-ancestors 'self'; script-src 'strict-dynamic' 'unsafe-eval'; object-src
+        'none'; base-uri 'none'
+      Content-Type:
+      - application/vnd.api+json; charset=utf-8
+      Date:
+      - Thu, 24 Aug 2023 13:02:28 GMT
+      Ratelimit-Limit:
+      - 700, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "699"
+      Ratelimit-Reset:
+      - "32"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2023-02-22"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 404 Not Found
+    code: 404
+    duration: ""
