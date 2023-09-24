@@ -12,7 +12,7 @@ This project provides a Go client for interacting with the Klaviyo API. It's a p
 ## Installation
 
 ```bash
-go get -u gitlab.com/monetha/go-klaviyo
+go get -u github.com/monetha/go-klaviyo
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ go get -u gitlab.com/monetha/go-klaviyo
 First, create a client:
 
 ```go
-import "gitlab.com/monetha/go-klaviyo"
+import "github.com/monetha/go-klaviyo"
 
 client := klaviyo.New(API_KEY, logger)
 ```

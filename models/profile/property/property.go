@@ -1,7 +1,7 @@
 package property
 
 import (
-	"gitlab.com/monetha/go-klaviyo/models/profile/updater"
+	"github.com/monetha/go-klaviyo/models/profile/updater"
 )
 
 // WithValue sets a specific key-value pair within the properties map.

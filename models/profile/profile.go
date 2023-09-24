@@ -3,9 +3,9 @@ package profile
 import (
 	"time"
 
-	"gitlab.com/monetha/go-klaviyo/models/profile/location"
-	"gitlab.com/monetha/go-klaviyo/models/profile/property"
-	"gitlab.com/monetha/go-klaviyo/models/profile/updater"
+	"github.com/monetha/go-klaviyo/models/profile/location"
+	"github.com/monetha/go-klaviyo/models/profile/property"
+	"github.com/monetha/go-klaviyo/models/profile/updater"
 )
 
 // NewProfile represents the data structure for a profile that is not yet created.

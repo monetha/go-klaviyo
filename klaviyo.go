@@ -16,10 +16,10 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 	"go.uber.org/zap"
 
-	"gitlab.com/monetha/go-klaviyo/internal/log"
-	"gitlab.com/monetha/go-klaviyo/models/profile"
-	"gitlab.com/monetha/go-klaviyo/models/profile/updater"
-	"gitlab.com/monetha/go-klaviyo/operations/getprofiles"
+	"github.com/monetha/go-klaviyo/internal/log"
+	"github.com/monetha/go-klaviyo/models/profile"
+	"github.com/monetha/go-klaviyo/models/profile/updater"
+	"github.com/monetha/go-klaviyo/operations/getprofiles"
 )
 
 const (

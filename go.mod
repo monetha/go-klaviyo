@@ -1,4 +1,4 @@
-module gitlab.com/monetha/go-klaviyo
+module github.com/monetha/go-klaviyo
 
 go 1.19
 

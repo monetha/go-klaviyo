@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"gitlab.com/monetha/go-klaviyo"
-	"gitlab.com/monetha/go-klaviyo/models/profile"
-	"gitlab.com/monetha/go-klaviyo/models/profile/property"
-	"gitlab.com/monetha/go-klaviyo/operations/getprofiles"
+	"github.com/monetha/go-klaviyo"
+	"github.com/monetha/go-klaviyo/models/profile"
+	"github.com/monetha/go-klaviyo/models/profile/property"
+	"github.com/monetha/go-klaviyo/operations/getprofiles"
 )
 
 const (

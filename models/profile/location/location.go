@@ -1,7 +1,7 @@
 package location
 
 import (
-	"gitlab.com/monetha/go-klaviyo/models/profile/updater"
+	"github.com/monetha/go-klaviyo/models/profile/updater"
 )
 
 // WithAddress1 sets the Address1 for the location.
