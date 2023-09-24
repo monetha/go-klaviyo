@@ -3,6 +3,7 @@ package klaviyo_test
 import (
 	"bytes"
 	"context"
+	"errors"
 	"io"
 	"net/http"
 	"testing"
@@ -142,8 +143,16 @@ func TestClient_CreateProfile(t *testing.T) {
 
 			cp, err := kc.CreateProfile(ctx, initialProfile)
 
-			require.ErrorIs(t, err, klaviyo.ErrProfileAlreadyExists)
+			require.NotNil(t, err)
 			require.Nil(t, cp)
+
+			// Type assert error to *ErrProfileAlreadyExists and compare the DuplicateProfileID
+			var e *klaviyo.ErrProfileAlreadyExists
+			if errors.As(err, &e) {
+				require.Equal(t, "01H8HKMDG8F4MN7PSRZ4YQYNVQ", e.DuplicateProfileID)
+			} else {
+				t.Fatalf("expected error of type *klaviyo.ErrProfileAlreadyExists, got %T", err)
+			}
 		})
 	})
 }

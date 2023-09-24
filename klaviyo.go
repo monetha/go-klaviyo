@@ -44,10 +44,6 @@ var (
 	// the maximum number of times defined by defaultRetryMax and still fails.
 	ErrTooManyRequests = errors.New("klaviyo: too many requests for calling endpoint")
 
-	// ErrProfileAlreadyExists indicates that an attempt was made to create a profile
-	// that already exists in Klaviyo.
-	ErrProfileAlreadyExists = errors.New("klaviyo: a profile already exists with one of these identifiers")
-
 	// ErrProfileDoesNotExist indicates that an attempt was made to retrieve a profile
 	// that does not exist in Klaviyo.
 	ErrProfileDoesNotExist = errors.New("klaviyo: a profile does not exist")
@@ -81,12 +77,27 @@ type APIError struct {
 	Source struct {
 		Pointer string `json:"pointer"`
 	} `json:"source"`
+	Meta struct {
+		DuplicateProfileID string `json:"duplicate_profile_id,omitempty"`
+	} `json:"meta,omitempty"`
 }
 
 // Error returns a human-readable representation of the APIError.
 func (e *APIError) Error() string {
 	return fmt.Sprintf("Klaviyo API Error (ID: %s, Status: %d, Code: %s) - %s: %s",
 		e.Id, e.Status, e.Code, e.Title, e.Detail)
+}
+
+// ErrProfileAlreadyExists indicates that an attempt was made to create a profile
+// that already exists in Klaviyo. It holds the ID of the duplicate profile.
+type ErrProfileAlreadyExists struct {
+	DuplicateProfileID string
+}
+
+// Error returns a string representation of the ErrProfileAlreadyExists error.
+// It conforms to the error interface.
+func (e *ErrProfileAlreadyExists) Error() string {
+	return fmt.Sprintf("klaviyo: a profile already exists with one of these identifiers: %s", e.DuplicateProfileID)
 }
 
 // BadHTTPResponseError represents an error due to a bad HTTP response.
@@ -350,7 +361,7 @@ func wrapAPIError(err error) error {
 		switch apiErr.Status {
 		case http.StatusConflict:
 			if apiErr.Code == "duplicate_profile" {
-				return ErrProfileAlreadyExists
+				return &ErrProfileAlreadyExists{DuplicateProfileID: apiErr.Meta.DuplicateProfileID}
 			}
 		case http.StatusNotFound:
 			if apiErr.Code == "not_found" {
