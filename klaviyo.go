@@ -368,7 +368,7 @@ func wrapAPIError(err error) error {
 				return ErrProfileDoesNotExist
 			}
 		case http.StatusUnauthorized:
-			if apiErr.Code == "not_authenticated" {
+			if apiErr.Code == "not_authenticated" || apiErr.Code == "authentication_failed" {
 				return ErrInvalidAPIKey
 			}
 		}

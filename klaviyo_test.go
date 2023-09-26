@@ -37,6 +37,18 @@ func TestClient_GetProfiles(t *testing.T) {
 		})
 	})
 
+	t.Run("get profiles with correctly formatted but invalid API key", func(t *testing.T) {
+		withHTTPRecorder("tests/get_profiles_correctly_formatted_invalid_api_key", func(c *http.Client) {
+			kc := klaviyo.NewWithClient("pk_1111111111111111111111111111111112", zap.L(), c)
+
+			ctx := context.TODO()
+			ps, err := kc.GetProfiles(ctx)
+
+			require.ErrorIs(t, err, klaviyo.ErrInvalidAPIKey)
+			require.Nil(t, ps)
+		})
+	})
+
 	t.Run("get profiles with valid API key", func(t *testing.T) {
 		withHTTPRecorder("tests/get_profiles_valid_api_key", func(c *http.Client) {
 			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
