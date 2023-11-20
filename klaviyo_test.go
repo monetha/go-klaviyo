@@ -395,6 +395,49 @@ func TestClient_UpdateProfile(t *testing.T) {
 		})
 	})
 
+	t.Run("unset property for the existing profile with valid API KEY", func(t *testing.T) {
+		withHTTPRecorder("tests/update_unset_property_existing_profile_valid_api_key", func(c *http.Client) {
+			const (
+				existingProfileID     = "01H8HKMDG8F4MN7PSRZ4YQYNVQ"
+				skypePropertyName     = "skype"
+				pseudonymPropertyName = "pseudonym"
+			)
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+
+			cp, err := kc.UpdateProfile(ctx,
+				existingProfileID,
+				profile.UnsetProperties(
+					skypePropertyName, pseudonymPropertyName,
+				),
+			)
+
+			require.NoError(t, err)
+			require.NotNil(t, cp)
+
+			// Additional checks to ensure created profile has the same values
+			require.Equal(t, existingProfileID, cp.Id, "Mismatch in field: Id")
+			initialProfAttrs := initialProfile.Attributes
+			clonedInitialProperties := cloneMap(initialProfAttrs.Properties)
+			delete(clonedInitialProperties, skypePropertyName)
+			delete(clonedInitialProperties, pseudonymPropertyName)
+			profAttrs := cp.Attributes
+			require.Equal(t, initialProfAttrs.Email, profAttrs.Email, "Mismatch in field: Email")
+			require.Equal(t, initialProfAttrs.PhoneNumber, profAttrs.PhoneNumber, "Mismatch in field: PhoneNumber")
+			require.Equal(t, initialProfAttrs.ExternalId, profAttrs.ExternalId, "Mismatch in field: ExternalId")
+			require.Equal(t, initialProfAttrs.AnonymousId, profAttrs.AnonymousId, "Mismatch in field: AnonymousId")
+			require.Equal(t, initialProfAttrs.FirstName, profAttrs.FirstName, "Mismatch in field: FirstName")
+			require.Equal(t, initialProfAttrs.LastName, profAttrs.LastName, "Mismatch in field: LastName")
+			require.Equal(t, initialProfAttrs.Organization, profAttrs.Organization, "Mismatch in field: Organization")
+			require.Equal(t, initialProfAttrs.Title, profAttrs.Title, "Mismatch in field: Title")
+			require.Equal(t, initialProfAttrs.Image, profAttrs.Image, "Mismatch in field: Image")
+			require.Equal(t, initialProfAttrs.Location, profAttrs.Location, "Mismatch in field: Location")
+			require.Equal(t, clonedInitialProperties, profAttrs.Properties, "Mismatch in field: Properties")
+		})
+	})
+
 	t.Run("update non-existing profile with valid API key", func(t *testing.T) {
 		withHTTPRecorder("tests/update_non_existing_profile_valid_api_key", func(c *http.Client) {
 			const nonExistingProfileID = "UQHWDB2XIYWHF9GYUWCY04KU8O"

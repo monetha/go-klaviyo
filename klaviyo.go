@@ -234,12 +234,12 @@ func (c *Client) GetProfile(ctx context.Context, profileID string) (*profile.Exi
 
 // UpdateProfile updates a specific profile by its ID in Klaviyo.
 func (c *Client) UpdateProfile(ctx context.Context, profileID string, updaters ...updater.Profile) (*profile.ExistingProfile, error) {
-	// Create an empty profile map to hold the updates
-	profileUpdates := make(map[string]interface{})
+	// Create an empty profile data to hold the updates
+	profileData := updater.NewProfileData()
 
 	// Apply each updater to the profile map
 	for _, u := range updaters {
-		u.Apply(profileUpdates)
+		u.Apply(profileData)
 	}
 
 	// Create the request data structure
@@ -247,15 +247,26 @@ func (c *Client) UpdateProfile(ctx context.Context, profileID string, updaters .
 		Attributes map[string]interface{} `json:"attributes"`
 		Id         string                 `json:"id"`
 		Type       string                 `json:"type"`
+		Meta       map[string]interface{} `json:"meta,omitempty"`
+	}
+
+	var meta map[string]interface{}
+	if propertiesToRemove := profileData.PropertiesToRemove; len(propertiesToRemove) > 0 {
+		meta = map[string]interface{}{
+			"patch_properties": map[string]interface{}{
+				"unset": propertiesToRemove,
+			},
+		}
 	}
 
 	request := struct {
 		Data requestData `json:"data"`
 	}{
 		Data: requestData{
-			Attributes: profileUpdates,
+			Attributes: profileData.Attributes,
 			Id:         profileID,
 			Type:       profileType,
+			Meta:       meta,
 		},
 	}
 

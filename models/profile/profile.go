@@ -57,75 +57,75 @@ type Location struct {
 
 // WithEmail sets the email for the profile.
 func WithEmail(email string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["email"] = email
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["email"] = email
 	})
 }
 
 // WithPhoneNumber sets the phone number for the profile.
 func WithPhoneNumber(phoneNumber string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["phone_number"] = phoneNumber
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["phone_number"] = phoneNumber
 	})
 }
 
 // WithExternalId sets the external ID for the profile.
 func WithExternalId(externalId string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["external_id"] = externalId
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["external_id"] = externalId
 	})
 }
 
 // WithAnonymousId sets the anonymous ID for the profile.
 func WithAnonymousId(anonymousId string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["anonymous_id"] = anonymousId
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["anonymous_id"] = anonymousId
 	})
 }
 
 // WithFirstName sets the first name for the profile.
 func WithFirstName(firstName string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["first_name"] = firstName
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["first_name"] = firstName
 	})
 }
 
 // WithLastName sets the last name for the profile.
 func WithLastName(lastName string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["last_name"] = lastName
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["last_name"] = lastName
 	})
 }
 
 // WithOrganization sets the organization for the profile.
 func WithOrganization(organization string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["organization"] = organization
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["organization"] = organization
 	})
 }
 
 // WithTitle sets the title for the profile.
 func WithTitle(title string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["title"] = title
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["title"] = title
 	})
 }
 
 // WithImage sets the image URL for the profile.
 func WithImage(image string) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
-		profile["image"] = image
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.Attributes["image"] = image
 	})
 }
 
 // WithLocation sets the location for the profile.
 func WithLocation(updaters ...updater.Location) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
 		loc := make(map[string]interface{})
 		for _, u := range updaters {
 			u.Apply(loc)
 		}
-		profile["location"] = loc
+		profile.Attributes["location"] = loc
 	})
 }
 
@@ -134,12 +134,19 @@ func WithLocation(updaters ...updater.Location) updater.Profile {
 // It accepts a variable number of updaters that each set a specific property.
 // Each updater is responsible for setting a specific key-value pair within the properties map.
 func WithProperties(updaters ...updater.Properties) updater.Profile {
-	return updater.ProfileFunc(func(profile map[string]interface{}) {
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
 		properties := make(map[string]interface{})
 		for _, u := range updaters {
 			u.Apply(properties)
 		}
-		profile["properties"] = properties
+		profile.Attributes["properties"] = properties
+	})
+}
+
+// UnsetProperties removes a key or keys (and their values) completely from properties.
+func UnsetProperties(propertyNames ...string) updater.Profile {
+	return updater.ProfileFunc(func(profile *updater.ProfileData) {
+		profile.PropertiesToRemove = append(profile.PropertiesToRemove, propertyNames...)
 	})
 }
 

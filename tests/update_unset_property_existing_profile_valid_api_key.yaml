@@ -1,0 +1,59 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{},"id":"01H8HKMDG8F4MN7PSRZ4YQYNVQ","type":"profile","meta":{"patch_properties":{"unset":["skype","pseudonym"]}}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ
+    method: PATCH
+  response:
+    body: '{"data":{"type":"profile","id":"01H8HKMDG8F4MN7PSRZ4YQYNVQ","attributes":{"email":"sarah.mason@klaviyo-demo.com","phone_number":"+15005550006","external_id":"63f64a2b-c6bf-40c7-b81f-bed08162edbe","anonymous_id":"anon-63f64a2b-c6bf-40c7-b81f-bed08162edbe","first_name":"Sarah","last_name":"Mason","organization":"Klaviyo","title":"Engineer","image":"https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg","created":"2023-08-23T16:28:52+00:00","updated":"2023-11-20T21:03:39.891624+00:00","last_event_date":null,"location":{"address1":"89
+      E 42nd St","address2":"1st floor","city":"New York","country":"United States","latitude":56,"longitude":24,"region":"NY","zip":"10017","timezone":"America/New_York","ip":null},"properties":{},"subscriptions":null},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/relationships/lists/","related":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/lists/"}},"segments":{"links":{"self":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/relationships/segments/","related":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/segments/"}}},"links":{"self":"https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ/"}}}'
+    headers:
+      Allow:
+      - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 8293a4114db87120-VNO
+      Cid:
+      - Ub4xp8
+      Content-Security-Policy:
+      - frame-ancestors 'self' login.bigcommerce.com *.mybigcommerce.com admin.shopify.com
+        klaviyo.file.force.com klaviyo.lightning.force.com klaviyo.my.salesforce.com;
+        script-src 'report-sample' 'strict-dynamic' 'unsafe-eval'; base-uri 'none';
+        object-src 'none'; report-uri /csp/
+      Content-Type:
+      - application/vnd.api+json
+      Date:
+      - Mon, 20 Nov 2023 21:03:40 GMT
+      Ratelimit-Limit:
+      - 700, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "698"
+      Ratelimit-Reset:
+      - "21"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2023-02-22"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 200 OK
+    code: 200
+    duration: ""
