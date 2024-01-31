@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/monetha/go-klaviyo/models/event"
 	"io"
 	"net/http"
 	"net/url"
@@ -27,6 +28,8 @@ const (
 	revision     = "2023-08-15"
 	profileType  = "profile"
 	profilesPath = "profiles"
+	eventType    = "event"
+	eventsPath   = "events"
 
 	// Default retry configuration
 	defaultRetryWaitMin = 1 * time.Second
@@ -171,6 +174,78 @@ func (c *Client) setCommonHeaders(req *http.Request) {
 	req.Header.Set("Authorization", "Klaviyo-API-Key "+c.APIKey)
 	req.Header.Set("accept", "application/json")
 	req.Header.Set("revision", revision)
+}
+
+// GetEvents retrieves a list of created events from Klaviyo.
+func (c *Client) GetEvents(ctx context.Context, params ...getprofiles.Param) ([]*event.ExistingEvent, error) {
+	fields := url.Values{}
+	for _, p := range params {
+		p.Apply(fields)
+	}
+
+	var result struct {
+		Data []*event.ExistingEvent `json:"data"`
+	}
+	if err := c.doReq(ctx, http.MethodGet, eventsPath, fields, nil, &result); err != nil {
+		return nil, err
+	}
+
+	return result.Data, nil
+}
+
+// CreateEvent creates a new event in Klaviyo.
+func (c *Client) CreateEvent(ctx context.Context, e *event.NewEvent, ID string, metricName string) error {
+	type requestData struct {
+		*event.NewEvent
+		Type string `json:"type"`
+	}
+
+	type reqProfile struct {
+		*event.ExistingProfile
+		Type string `json:"type"`
+	}
+
+	type reqMetric struct {
+		Type string `json:"type"`
+		*event.NewMetric
+	}
+
+	profileRequestData := struct {
+		Data reqProfile `json:"data"`
+	}{
+		Data: reqProfile{
+			Type:            profileType,
+			ExistingProfile: &event.ExistingProfile{ID: ID},
+		},
+	}
+
+	metricRequestData := struct {
+		Data reqMetric `json:"data"`
+	}{
+		Data: reqMetric{
+			Type: "metric",
+			NewMetric: &event.NewMetric{
+				Attributes: event.MetricAttributes{Name: metricName},
+			},
+		},
+	}
+
+	request := struct {
+		Data requestData `json:"data"`
+	}{
+		Data: requestData{
+			NewEvent: e,
+			Type:     eventType,
+		},
+	}
+	request.Data.NewAttributes.Profile = profileRequestData
+	request.Data.NewAttributes.Metric = metricRequestData
+
+	if err := c.doReq(ctx, http.MethodPost, eventsPath, nil, request, nil); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // GetProfiles retrieves a list of created profiles from Klaviyo.
@@ -323,7 +398,7 @@ func (c *Client) doReq(ctx context.Context, method, endpoint string, fields url.
 	if err != nil {
 		return err
 	}
-
+	fmt.Println("Status: ", resp.StatusCode)
 	if statusCode := resp.StatusCode; statusCode < 200 || statusCode >= 300 {
 		var errs struct {
 			Errors []*APIError `json:"errors"`
@@ -350,8 +425,10 @@ func (c *Client) doReq(ctx context.Context, method, endpoint string, fields url.
 
 		return wrapAPIError(err.Unwrap())
 	}
-
-	return json.Unmarshal(body, result)
+	if result != nil {
+		return json.Unmarshal(body, result)
+	}
+	return err
 }
 
 func errorHandler(resp *http.Response, err error, _ int) (*http.Response, error) {

@@ -1,0 +1,57 @@
+---
+version: 1
+interactions:
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Revision:
+      - "2023-08-15"
+    url: https://a.klaviyo.com/api/events
+    method: GET
+  response:
+    body: '{"data":[{"type":"event","id":"4WnLC9w4d7b","attributes":{"timestamp":1706591400,"event_properties":{"EventName":"EmailSent","PointClaimed":"1500","PointOverall":"20000", "$event_id":"1706591400","$value":0.52},"datetime":"2024-01-30
+      05:10:00+00:00","uuid":"d13e0400-bf2d-11ee-8001-dd51f1217edd"},"relationships":{"profile":{"data":{"type":"profile","id":"01HNA13S5X9WMFZFK127XR05JW"},"links":{"self":"https://a.klaviyo.com/api/events/4WnLC9w4d7b/relationships/profile/","related":"https://a.klaviyo.com/api/events/4WnLC9w4d7b/profile/"}},"metric":{"data":{"type":"metric","id":"Xj3Zw4"},"links":{"self":"https://a.klaviyo.com/api/events/4WnLC9w4d7b/relationships/metric/","related":"https://a.klaviyo.com/api/events/4WnLC9w4d7b/metric/"}}},"links":{"self":"https://a.klaviyo.com/api/events/4WnLC9w4d7b/"}}],"links":{"self":"https://a.klaviyo.com/api/events","next":null,"prev":null}}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 84e4f7b0aec6abf9-KLD
+      Cid:
+      - XHaHCD
+      Content-Security-Policy:
+      - base-uri 'none'; script-src 'report-sample' 'strict-dynamic' 'unsafe-eval';
+        object-src 'none'; frame-ancestors 'self' login.bigcommerce.com *.mybigcommerce.com
+        admin.shopify.com klaviyo.file.force.com klaviyo.lightning.force.com klaviyo.my.salesforce.com;
+        report-uri /csp/
+      Content-Type:
+      - application/vnd.api+json
+      Date:
+      - Wed, 31 Jan 2024 21:15:00 GMT
+      Ratelimit-Limit:
+      - 3500, 350;w=1, 3500;w=60
+      Ratelimit-Remaining:
+      - "3499"
+      Ratelimit-Reset:
+      - "32"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Cookie, Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Klaviyo-Api-Revision:
+      - "2023-07-15"
+      X-Robots-Tag:
+      - noindex, nofollow
+    status: 200 OK
+    code: 200
+    duration: ""
