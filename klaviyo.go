@@ -398,7 +398,6 @@ func (c *Client) doReq(ctx context.Context, method, endpoint string, fields url.
 	if err != nil {
 		return err
 	}
-	fmt.Println("Status: ", resp.StatusCode)
 	if statusCode := resp.StatusCode; statusCode < 200 || statusCode >= 300 {
 		var errs struct {
 			Errors []*APIError `json:"errors"`
@@ -428,7 +427,7 @@ func (c *Client) doReq(ctx context.Context, method, endpoint string, fields url.
 	if result != nil {
 		return json.Unmarshal(body, result)
 	}
-	return err
+	return nil
 }
 
 func errorHandler(resp *http.Response, err error, _ int) (*http.Response, error) {
