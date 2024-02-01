@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"github.com/monetha/go-klaviyo/models/event"
 	"io"
 	"net/http"
 	"testing"
@@ -101,6 +102,18 @@ var initialProfile = &profile.NewProfile{
 		},
 		Properties: map[string]interface{}{
 			"pseudonym": "Dr. Octopus",
+		},
+	},
+}
+
+var inititalEvent = event.NewEvent{
+	NewAttributes: event.NewAttributes{
+		Time:  "2024-01-30T05:10:00",
+		Value: 0,
+		Properties: map[string]string{
+			"EventName":    "EmailSent",
+			"PointClaimed": "1500",
+			"PointOverall": "20000",
 		},
 	},
 }
@@ -451,6 +464,46 @@ func TestClient_UpdateProfile(t *testing.T) {
 
 			require.ErrorIs(t, err, klaviyo.ErrProfileDoesNotExist)
 			require.Nil(t, cp)
+		})
+	})
+}
+
+func TestClient_Events(t *testing.T) {
+	t.Run("create new event with valid API key", func(t *testing.T) {
+		withHTTPRecorder("tests/create_new_event_valid_api_key", func(c *http.Client) {
+			const existingProfileID = "01HN6AFEHGF6F77WJRKT1C9JHG"
+
+			metricName := "Reward"
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			err := kc.CreateEvent(ctx, &inititalEvent, existingProfileID, metricName)
+
+			require.NoError(t, err)
+		})
+	})
+
+	t.Run("get existing profile with valid API key", func(t *testing.T) {
+		withHTTPRecorder("tests/get_existing_event_valid_api_key", func(c *http.Client) {
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			ce, err := kc.GetEvents(ctx)
+
+			require.NoError(t, err)
+			require.NotNil(t, ce)
+			require.Len(t, ce, 1)
+
+			result := ce[0]
+			prop := result.Attributes.EventProperties
+
+			require.Equal(t, result.Attributes.UUID, "d13e0400-bf2d-11ee-8001-dd51f1217edd")
+			require.NotEmpty(t, prop)
+			require.Equal(t, prop["EventName"], inititalEvent.Properties["EventName"])
+			require.Equal(t, prop["PointClaimed"], inititalEvent.Properties["PointClaimed"])
+			require.Equal(t, prop["PointOverall"], inititalEvent.Properties["PointOverall"])
 		})
 	})
 }
