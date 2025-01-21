@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"github.com/monetha/go-klaviyo/models/event"
 	"io"
 	"net/http"
 	"testing"
@@ -15,6 +14,7 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/monetha/go-klaviyo"
+	"github.com/monetha/go-klaviyo/models/event"
 	"github.com/monetha/go-klaviyo/models/profile"
 	"github.com/monetha/go-klaviyo/models/profile/property"
 	"github.com/monetha/go-klaviyo/operations/getprofiles"
@@ -110,7 +110,7 @@ var inititalEvent = event.NewEvent{
 	NewAttributes: event.NewAttributes{
 		Time:  "2024-01-30T05:10:00",
 		Value: 0,
-		Properties: map[string]string{
+		Properties: map[string]interface{}{
 			"EventName":    "EmailSent",
 			"PointClaimed": "1500",
 			"PointOverall": "20000",

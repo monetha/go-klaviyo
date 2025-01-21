@@ -19,11 +19,11 @@ type ExistingEvent struct {
 
 // NewAttributes represents the data structure for an attributes of event that is not yet created.
 type NewAttributes struct {
-	Time       string            `json:"time"`
-	Value      float64           `json:"value"`
-	Properties map[string]string `json:"properties"`
-	Profile    interface{}       `json:"profile"`
-	Metric     interface{}       `json:"metric"`
+	Time       string                 `json:"time"`
+	Value      float64                `json:"value"`
+	Properties map[string]interface{} `json:"properties"`
+	Profile    interface{}            `json:"profile"`
+	Metric     interface{}            `json:"metric"`
 }
 
 // Attributes represents the data structure for an existing attributes.
