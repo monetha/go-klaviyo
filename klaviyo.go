@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/monetha/go-klaviyo/models/event"
 	"io"
 	"net/http"
 	"net/url"
@@ -18,6 +17,7 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/monetha/go-klaviyo/internal/log"
+	"github.com/monetha/go-klaviyo/models/event"
 	"github.com/monetha/go-klaviyo/models/profile"
 	"github.com/monetha/go-klaviyo/models/profile/updater"
 	"github.com/monetha/go-klaviyo/operations/getprofiles"
@@ -25,7 +25,7 @@ import (
 
 const (
 	restAPIHost  = "https://a.klaviyo.com/api"
-	revision     = "2023-08-15"
+	revision     = "2025-01-15"
 	profileType  = "profile"
 	profilesPath = "profiles"
 	eventType    = "event"
