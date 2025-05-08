@@ -24,12 +24,13 @@ import (
 )
 
 const (
-	restAPIHost  = "https://a.klaviyo.com/api"
-	revision     = "2025-01-15"
-	profileType  = "profile"
-	profilesPath = "profiles"
-	eventType    = "event"
-	eventsPath   = "events"
+	restAPIHost       = "https://a.klaviyo.com/api"
+	revision          = "2025-04-15"
+	profileType       = "profile"
+	profilesPath      = "profiles"
+	profileImportPath = "profile-import"
+	eventType         = "event"
+	eventsPath        = "events"
 
 	// Default retry configuration
 	defaultRetryWaitMin = 1 * time.Second
@@ -355,6 +356,78 @@ func (c *Client) UpdateProfile(ctx context.Context, profileID string, updaters .
 	}
 
 	return &result.Data, nil
+}
+
+// CreateOrUpdateProfile creates a new profile or updates an existing one
+// using Klaviyo’s POST /api/profile-import “upsert” endpoint.
+//
+// Behaviour:
+//
+//   • If profileID is an empty string the call is treated as a pure upsert:
+//     Klaviyo will look for a profile matching any identifiers contained in
+//     the supplied updaters and will update it, or create a new profile if
+//     none is found.
+//
+//   • If profileID is non-empty the request explicitly targets that profile
+//     while still allowing identifier updates (email, phone, external_id…).
+//
+// Only the attributes produced by the supplied updaters are sent; fields
+// you don’t set are **omitted altogether**, guaranteeing we never clear
+// data unintentionally (cf. “setting a field to null will clear it” in
+// the API docs).
+//
+// The method mirrors UpdateProfile’s signature so that callers can write:
+//
+//	    _, err := c.CreateOrUpdateProfile(
+//		    ctx,
+//		    klaviyoProfileID,   // "" if unknown
+//		    klaviyoProfile.ToUpdaters()...,
+//	    )
+func (c *Client) CreateOrUpdateProfile(
+	ctx context.Context,
+	profileID string,
+	updaters ...updater.Profile,
+) (*profile.ExistingProfile, error) {
+	// Collect attribute / meta mutations from updaters
+	pd := updater.NewProfileData()
+	for _, u := range updaters {
+		u.Apply(pd)
+	}
+
+	// Build request payload
+	type requestData struct {
+		Attributes map[string]interface{} `json:"attributes"`
+		Type       string                 `json:"type"`
+		ID         string                 `json:"id,omitempty"`
+		Meta       map[string]interface{} `json:"meta,omitempty"`
+	}
+	var meta map[string]interface{}
+	if unset := pd.PropertiesToRemove; len(unset) > 0 {
+		meta = map[string]interface{}{
+			"patch_properties": map[string]interface{}{
+				"unset": unset,
+			},
+		}
+	}
+	req := struct {
+		Data requestData `json:"data"`
+	}{
+		Data: requestData{
+			Attributes: pd.Attributes,
+			Type:       profileType,
+			ID:         profileID, // omitted if ""
+			Meta:       meta,
+		},
+	}
+
+	// Execute POST /api/profile-import
+	var resp struct {
+		Data profile.ExistingProfile `json:"data"`
+	}
+	if err := c.doReq(ctx, http.MethodPost, profileImportPath, nil, req, &resp); err != nil {
+		return nil, err
+	}
+	return &resp.Data, nil
 }
 
 func (c *Client) doReq(ctx context.Context, method, endpoint string, fields url.Values, bodyData, result interface{}) error {

@@ -10,7 +10,7 @@ interactions:
       Authorization:
       - Klaviyo-API-Key pk_1111111111111111111111111111111112
       Revision:
-      - "2023-08-15"
+      - "2025-04-15"
     url: https://a.klaviyo.com/api/profiles
     method: GET
   response:

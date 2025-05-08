@@ -1,0 +1,61 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{"email":"jane.doe+import@klaviyo-demo.com","first_name":"Jane","last_name":"Doe","phone_number":"+15005550010","properties":{"role":"tester"}},"type":"profile","id":"UQHWDB2XIYWHF9GYUWCY04KU8O"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2025-04-15"
+    url: https://a.klaviyo.com/api/profile-import
+    method: POST
+  response:
+    body: '{"errors":[{"id":"4c310b34-5030-4c0b-8bf8-af8716bc580c","status":404,"code":"not_found","title":"Not
+      found.","detail":"A profile with id UQHWDB2XIYWHF9GYUWCY04KU8O does not exist.","source":{"pointer":"/data/"}}]}'
+    headers:
+      Allow:
+      - POST, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 93c7e1febf7ebc13-VNO
+      Cid:
+      - Ub4xp8
+      Content-Language:
+      - en-us
+      Content-Security-Policy:
+      - script-src 'report-sample' 'strict-dynamic' 'unsafe-eval'; frame-ancestors
+        'self' login.bigcommerce.com *.mybigcommerce.com admin.shopify.com klaviyo.file.force.com
+        klaviyo.lightning.force.com klaviyo.my.salesforce.com; base-uri 'none'; object-src
+        'none'; report-uri /csp/
+      Content-Type:
+      - application/vnd.api+json
+      Date:
+      - Thu, 08 May 2025 09:20:43 GMT
+      Ratelimit-Limit:
+      - 75, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "74"
+      Ratelimit-Reset:
+      - "0"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept, Accept-Language, Cookie
+      X-Content-Type-Options:
+      - nosniff
+      X-Envoy-Upstream-Service-Time:
+      - "45"
+      X-Klaviyo-Api-Revision:
+      - "2025-04-15"
+    status: 404 Not Found
+    code: 404
+    duration: ""

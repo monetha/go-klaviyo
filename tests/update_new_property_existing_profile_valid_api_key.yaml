@@ -12,7 +12,7 @@ interactions:
       Content-Type:
       - application/json
       Revision:
-      - "2023-08-15"
+      - "2025-04-15"
     url: https://a.klaviyo.com/api/profiles/01H8HKMDG8F4MN7PSRZ4YQYNVQ
     method: PATCH
   response:

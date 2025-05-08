@@ -468,6 +468,159 @@ func TestClient_UpdateProfile(t *testing.T) {
 	})
 }
 
+var importProfile = &profile.NewProfile{
+	Attributes: profile.NewAttributes{
+		Email:       "jane.doe+import@klaviyo-demo.com",
+		PhoneNumber: pVal("+15005550010"),
+		FirstName:   pVal("Jane"),
+		LastName:    pVal("Doe"),
+		Properties: map[string]interface{}{
+			"role": "tester",
+		},
+	},
+}
+
+func TestClient_CreateOrUpdateProfile(t *testing.T) {
+	/* --------------------------------------------------------------------- */
+	t.Run("upsert with invalid API key", func(t *testing.T) {
+		withHTTPRecorder("tests/create_or_update_profile_invalid_api_key", func(c *http.Client) {
+			kc := klaviyo.NewWithClient(invalidAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			cp, err := kc.CreateOrUpdateProfile(ctx, "", importProfile.ToUpdaters()...)
+
+			require.ErrorIs(t, err, klaviyo.ErrInvalidAPIKey)
+			require.Nil(t, cp)
+		})
+	})
+
+	/* --------------------------------------------------------------------- */
+	t.Run("create new profile via upsert", func(t *testing.T) {
+		withHTTPRecorder("tests/create_profile_import_valid_api_key", func(c *http.Client) {
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			cp, err := kc.CreateOrUpdateProfile(ctx, "",
+				importProfile.ToUpdaters()...)
+
+			require.NoError(t, err)
+			require.NotNil(t, cp)
+
+			// basic sanity checks
+			require.NotEmpty(t, cp.Id, "new profile should have a Klaviyo ID")
+			require.Equal(t, importProfile.Attributes.Email, cp.Attributes.Email)
+			require.Equal(t, importProfile.Attributes.PhoneNumber, cp.Attributes.PhoneNumber)
+
+			// properties — make sure "role" is preserved
+			props := cp.Attributes.Properties
+			require.Contains(t, props, "role")
+			require.Equal(t, "tester", props["role"])
+
+			// optional: ensure Klaviyo's auto-added key is sane
+			require.Equal(t, "US", props["$phone_number_region"])
+		})
+	})
+
+	/* --------------------------------------------------------------------- */
+	t.Run("update phone only for existing profile via upsert", func(t *testing.T) {
+		withHTTPRecorder("tests/update_phone_import_valid_api_key", func(c *http.Client) {
+			const (
+				existingProfileID = "01JTQJV5KSG4E3TB5MJ5X0P2ZZ"
+				newPhoneNumber    = "+15005550011"
+			)
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			cp, err := kc.CreateOrUpdateProfile(ctx, existingProfileID,
+				profile.WithPhoneNumber(newPhoneNumber),
+			)
+
+			require.NoError(t, err)
+			require.NotNil(t, cp)
+			require.Equal(t, existingProfileID, cp.Id)
+			require.Equal(t, pVal(newPhoneNumber), cp.Attributes.PhoneNumber)
+		})
+	})
+
+	/* --------------------------------------------------------------------- */
+	t.Run("add then unset a property via upsert", func(t *testing.T) {
+		withHTTPRecorder("tests/unset_property_import_valid_api_key", func(c *http.Client) {
+			const (
+				existingProfileID = "01JTQJV5KSG4E3TB5MJ5X0P2ZZ"
+				propName          = "temporary_role"
+				propValue         = "contractor"
+			)
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+			ctx := context.TODO()
+
+			// first add the new property
+			_, err := kc.CreateOrUpdateProfile(ctx, existingProfileID,
+				profile.WithProperties(
+					property.WithValue(propName, propValue),
+				),
+			)
+			require.NoError(t, err)
+
+			// now remove it
+			cp, err := kc.CreateOrUpdateProfile(ctx, existingProfileID,
+				profile.UnsetProperties(propName),
+			)
+
+			require.NoError(t, err)
+			require.NotNil(t, cp)
+			require.Equal(t, existingProfileID, cp.Id)
+			_, stillPresent := cp.Attributes.Properties[propName]
+			require.False(t, stillPresent, "property should have been removed")
+		})
+	})
+
+	/* --------------------------------------------------------------------- */
+	t.Run("upsert with non-existing explicit ID returns not-found", func(t *testing.T) {
+		withHTTPRecorder("tests/create_or_update_non_existing_profile_id", func(c *http.Client) {
+			const nonExistingID = "UQHWDB2XIYWHF9GYUWCY04KU8O"
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			cp, err := kc.CreateOrUpdateProfile(ctx, nonExistingID,
+				importProfile.ToUpdaters()...)
+
+			require.ErrorIs(t, err, klaviyo.ErrProfileDoesNotExist)
+			require.Nil(t, cp)
+		})
+	})
+
+	/* --------------------------------------------------------------------- */
+	t.Run("update existing profile via identifiers only (no id)", func(t *testing.T) {
+		withHTTPRecorder("tests/update_existing_profile_by_identifiers_valid_api_key", func(c *http.Client) {
+			const (
+				existingEmail = "jane.doe+import@klaviyo-demo.com"
+				existingID    = "01JTQJV5KSG4E3TB5MJ5X0P2ZZ"
+				newTitle      = "Senior Engineer"
+			)
+
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+			ctx := context.TODO()
+
+			cp, err := kc.CreateOrUpdateProfile(ctx, "",
+				// identifiers required for Klaviyo to resolve the profile
+				profile.WithEmail(existingEmail),
+				// the actual change we care about
+				profile.WithTitle(newTitle),
+			)
+
+			require.NoError(t, err)
+			require.NotNil(t, cp)
+
+			// we should have hit the same profile, not created a new one
+			require.Equal(t, existingID, cp.Id, "upsert should update existing profile")
+			require.Equal(t, pVal(newTitle), cp.Attributes.Title, "title must be updated")
+		})
+	})
+}
+
 func TestClient_Events(t *testing.T) {
 	t.Run("create new event with valid API key", func(t *testing.T) {
 		withHTTPRecorder("tests/create_new_event_valid_api_key", func(c *http.Client) {

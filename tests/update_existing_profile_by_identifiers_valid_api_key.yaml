@@ -1,0 +1,62 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"attributes":{"email":"jane.doe+import@klaviyo-demo.com","title":"Senior
+      Engineer"},"type":"profile"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key valid-api-key
+      Content-Type:
+      - application/json
+      Revision:
+      - "2025-04-15"
+    url: https://a.klaviyo.com/api/profile-import
+    method: POST
+  response:
+    body: '{"data":{"type":"profile","id":"01JTQJV5KSG4E3TB5MJ5X0P2ZZ","attributes":{"email":"jane.doe+import@klaviyo-demo.com","phone_number":"+15005550011","external_id":null,"anonymous_id":null,"first_name":"Jane","last_name":"Doe","organization":null,"locale":null,"title":"Senior
+      Engineer","image":null,"created":"2025-05-08T09:15:23+00:00","updated":"2025-05-08T09:28:54.168000+00:00","last_event_date":null,"location":{"city":null,"longitude":null,"address2":null,"country":null,"zip":null,"latitude":null,"region":null,"address1":null,"timezone":null,"ip":null},"properties":{"role":"tester","$phone_number_region":"US"}},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/relationships/lists/","related":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/lists/"}},"segments":{"links":{"self":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/relationships/segments/","related":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/segments/"}},"push-tokens":{"links":{"self":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/relationships/push-tokens/","related":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/push-tokens/"}},"conversation":{"links":{"self":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/relationships/conversation/","related":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/conversation/"}}},"links":{"self":"https://a.klaviyo.com/api/profiles/01JTQJV5KSG4E3TB5MJ5X0P2ZZ/"}},"links":{"self":"https://a.klaviyo.com/api/profile-import"}}'
+    headers:
+      Allow:
+      - POST, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 93c7edf9aa0fce1a-VNO
+      Cid:
+      - Ub4xp8
+      Content-Language:
+      - en-us
+      Content-Security-Policy:
+      - script-src 'report-sample' 'strict-dynamic' 'unsafe-eval'; frame-ancestors
+        'self' login.bigcommerce.com *.mybigcommerce.com admin.shopify.com klaviyo.file.force.com
+        klaviyo.lightning.force.com klaviyo.my.salesforce.com; object-src 'none';
+        base-uri 'none'; report-uri /csp/
+      Content-Type:
+      - application/vnd.api+json
+      Date:
+      - Thu, 08 May 2025 09:28:54 GMT
+      Ratelimit-Limit:
+      - 75, 75;w=1, 700;w=60
+      Ratelimit-Remaining:
+      - "74"
+      Ratelimit-Reset:
+      - "0"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept, Accept-Language, Cookie
+      X-Content-Type-Options:
+      - nosniff
+      X-Envoy-Upstream-Service-Time:
+      - "88"
+      X-Klaviyo-Api-Revision:
+      - "2025-04-15"
+    status: 200 OK
+    code: 200
+    duration: ""
