@@ -24,13 +24,15 @@ import (
 )
 
 const (
-	restAPIHost       = "https://a.klaviyo.com/api"
-	revision          = "2025-04-15"
-	profileType       = "profile"
-	profilesPath      = "profiles"
-	profileImportPath = "profile-import"
-	eventType         = "event"
-	eventsPath        = "events"
+	restAPIHost              = "https://a.klaviyo.com/api"
+	revision                 = "2025-04-15"
+	profileType              = "profile"
+	profilesPath             = "profiles"
+	profileImportPath        = "profile-import"
+	profileBulkImportJobType = "profile-bulk-import-job"
+	profileBulkImportPath    = "profile-bulk-import-jobs"
+	eventType                = "event"
+	eventsPath               = "events"
 
 	// Default retry configuration
 	defaultRetryWaitMin = 1 * time.Second
@@ -363,12 +365,12 @@ func (c *Client) UpdateProfile(ctx context.Context, profileID string, updaters .
 //
 // Behaviour:
 //
-//   • If profileID is an empty string the call is treated as a pure upsert:
+//   - If profileID is an empty string the call is treated as a pure upsert:
 //     Klaviyo will look for a profile matching any identifiers contained in
 //     the supplied updaters and will update it, or create a new profile if
 //     none is found.
 //
-//   • If profileID is non-empty the request explicitly targets that profile
+//   - If profileID is non-empty the request explicitly targets that profile
 //     while still allowing identifier updates (email, phone, external_id…).
 //
 // Only the attributes produced by the supplied updaters are sent; fields
@@ -428,6 +430,114 @@ func (c *Client) CreateOrUpdateProfile(
 		return nil, err
 	}
 	return &resp.Data, nil
+}
+
+// BulkProfileAttributes represents a profile in a bulk import request
+type BulkProfileAttributes struct {
+	Email      string                 `json:"email,omitempty"`
+	Properties map[string]interface{} `json:"properties,omitempty"`
+	// Add other fields as needed
+	PhoneNumber *string `json:"phone_number,omitempty"`
+	ExternalId  *string `json:"external_id,omitempty"`
+	FirstName   *string `json:"first_name,omitempty"`
+	LastName    *string `json:"last_name,omitempty"`
+}
+
+// BulkProfileData represents a single profile in bulk import
+type BulkProfileData struct {
+	Type       string                `json:"type"`
+	Attributes BulkProfileAttributes `json:"attributes"`
+}
+
+// BulkImportJobAttributes contains the profiles array for bulk import
+type BulkImportJobAttributes struct {
+	Profiles struct {
+		Data []BulkProfileData `json:"data"`
+	} `json:"profiles"`
+}
+
+// BulkImportJobResponse represents the response from bulk import API
+type BulkImportJobResponse struct {
+	Data struct {
+		Type       string `json:"type"`
+		ID         string `json:"id"`
+		Attributes struct {
+			Status         string     `json:"status"`
+			CreatedAt      time.Time  `json:"created_at"`
+			TotalCount     int        `json:"total_count"`
+			CompletedCount int        `json:"completed_count"`
+			FailedCount    int        `json:"failed_count"`
+			CompletedAt    *time.Time `json:"completed_at"`
+			ExpiresAt      time.Time  `json:"expires_at"`
+			StartedAt      *time.Time `json:"started_at"`
+		} `json:"attributes"`
+	} `json:"data"`
+}
+
+// BulkCreateOrUpdateProfiles creates or updates multiple profiles using Klaviyo's bulk import API.
+// This method submits up to 10,000 profiles in a single async job.
+//
+// Parameters:
+//   - ctx: context for the request
+//   - profiles: slice of BulkProfileAttributes (max 10,000 profiles, max 5MB payload)
+//
+// Returns:
+//   - job ID string for tracking the async job status
+//   - error if the submission fails
+//
+// Example:
+//
+//	profiles := []klaviyo.BulkProfileAttributes{
+//	    {
+//	        Email: "user1@example.com",
+//	        Properties: map[string]interface{}{
+//	            "last_login_at": "2025-12-01T10:00:00Z",
+//	        },
+//	    },
+//	    {
+//	        Email: "user2@example.com",
+//	        Properties: map[string]interface{}{
+//	            "last_transaction_at": "2025-11-20T15:30:00Z",
+//	        },
+//	    },
+//	}
+//	jobID, err := client.BulkCreateOrUpdateProfiles(ctx, profiles)
+func (c *Client) BulkCreateOrUpdateProfiles(
+	ctx context.Context,
+	profiles []BulkProfileAttributes,
+) (string, error) {
+	if len(profiles) == 0 {
+		return "", errors.New("klaviyo: profiles slice cannot be empty")
+	}
+	if len(profiles) > 10000 {
+		return "", errors.New("klaviyo: maximum 10,000 profiles per bulk import job")
+	}
+
+	// Build profile data array
+	profileDataArray := make([]BulkProfileData, len(profiles))
+	for i, p := range profiles {
+		profileDataArray[i] = BulkProfileData{
+			Type:       profileType,
+			Attributes: p,
+		}
+	}
+
+	request := struct {
+		Data struct {
+			Type       string                  `json:"type"`
+			Attributes BulkImportJobAttributes `json:"attributes"`
+		} `json:"data"`
+	}{}
+
+	request.Data.Type = profileBulkImportJobType
+	request.Data.Attributes.Profiles.Data = profileDataArray
+
+	var resp BulkImportJobResponse
+	if err := c.doReq(ctx, http.MethodPost, profileBulkImportPath, nil, request, &resp); err != nil {
+		return "", err
+	}
+
+	return resp.Data.ID, nil
 }
 
 func (c *Client) doReq(ctx context.Context, method, endpoint string, fields url.Values, bodyData, result interface{}) error {
