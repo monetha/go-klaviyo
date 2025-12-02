@@ -661,6 +661,69 @@ func TestClient_Events(t *testing.T) {
 	})
 }
 
+func TestClient_BulkCreateOrUpdateProfiles(t *testing.T) {
+	t.Run("bulk import with invalid API key", func(t *testing.T) {
+		withHTTPRecorder("tests/bulk_import_profiles_invalid_api_key", func(c *http.Client) {
+			kc := klaviyo.NewWithClient(invalidAPIKey, zap.L(), c)
+
+			profiles := []klaviyo.BulkProfileAttributes{
+				{
+					Email: "bulk1@example.com",
+					Properties: map[string]interface{}{
+						"test_prop": "value1",
+					},
+				},
+			}
+
+			ctx := context.TODO()
+			jobID, err := kc.BulkCreateOrUpdateProfiles(ctx, profiles)
+
+			require.ErrorIs(t, err, klaviyo.ErrInvalidAPIKey)
+			require.Empty(t, jobID)
+		})
+	})
+
+	t.Run("bulk import with valid API key", func(t *testing.T) {
+		withHTTPRecorder("tests/bulk_import_profiles_valid_api_key", func(c *http.Client) {
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			profiles := []klaviyo.BulkProfileAttributes{
+				{
+					Email: "bulk.test1@klaviyo-demo.com",
+					Properties: map[string]interface{}{
+						"last_login_at": "2025-12-01T10:00:00Z",
+					},
+				},
+				{
+					Email: "bulk.test2@klaviyo-demo.com",
+					Properties: map[string]interface{}{
+						"last_transaction_at": "2025-11-20T15:30:00Z",
+					},
+				},
+			}
+
+			ctx := context.TODO()
+			jobID, err := kc.BulkCreateOrUpdateProfiles(ctx, profiles)
+
+			require.NoError(t, err)
+			require.NotEmpty(t, jobID, "Job ID should not be empty")
+		})
+	})
+
+	t.Run("bulk import with empty profiles", func(t *testing.T) {
+		withHTTPRecorder("tests/bulk_import_profiles_empty", func(c *http.Client) {
+			kc := klaviyo.NewWithClient(validAPIKey, zap.L(), c)
+
+			ctx := context.TODO()
+			jobID, err := kc.BulkCreateOrUpdateProfiles(ctx, []klaviyo.BulkProfileAttributes{})
+
+			require.Error(t, err)
+			require.Contains(t, err.Error(), "cannot be empty")
+			require.Empty(t, jobID)
+		})
+	})
+}
+
 func pVal[T any](val T) *T { return &val }
 
 func cloneMap[M ~map[K]V, K comparable, V any](src M) M {

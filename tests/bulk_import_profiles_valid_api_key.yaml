@@ -1,0 +1,64 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"type":"profile-bulk-import-job","attributes":{"profiles":{"data":[{"type":"profile","attributes":{"email":"bulk.test1@klaviyo-demo.com","properties":{"last_login_at":"2025-12-01T10:00:00Z"}}},{"type":"profile","attributes":{"email":"bulk.test2@klaviyo-demo.com","properties":{"last_transaction_at":"2025-11-20T15:30:00Z"}}}]}}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key pk_740f5067030cfb042062f7f0762f40fa4e
+      Content-Type:
+      - application/json
+      Revision:
+      - "2025-04-15"
+    url: https://a.klaviyo.com/api/profile-bulk-import-jobs
+    method: POST
+  response:
+    body: '{"data":{"type":"profile-bulk-import-job","id":"UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA","attributes":{"status":"queued","created_at":"2025-12-02T14:51:12.491183+00:00","total_count":2,"completed_count":0,"failed_count":0,"completed_at":null,"expires_at":"2025-12-09T14:51:12.491183+00:00","started_at":null},"relationships":{"lists":{"links":{"self":"https://a.klaviyo.com/api/profile-bulk-import-jobs/UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA/relationships/lists/","related":"https://a.klaviyo.com/api/profile-bulk-import-jobs/UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA/lists/"}},"profiles":{"links":{"self":"https://a.klaviyo.com/api/profile-bulk-import-jobs/UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA/relationships/profiles/","related":"https://a.klaviyo.com/api/profile-bulk-import-jobs/UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA/profiles/"}},"import-errors":{"links":{"related":"https://a.klaviyo.com/api/profile-bulk-import-jobs/UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA/import-errors/"}}},"links":{"self":"https://a.klaviyo.com/api/profile-bulk-import-jobs/UVVFenFVX21haW50ZW5hbmNlLkcyekdlNS4xNzY0Njg3MDcyLkpTR2V3ZA/"}},"links":{"self":"https://a.klaviyo.com/api/profile-bulk-import-jobs"}}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 9a7ba4196ddb0ef7-VNO
+      Cid:
+      - QUEzqU
+      Content-Language:
+      - en-us
+      Content-Length:
+      - "1299"
+      Content-Security-Policy:
+      - frame-ancestors 'self' login.bigcommerce.com *.mybigcommerce.com admin.shopify.com
+        klaviyo.file.force.com klaviyo.lightning.force.com klaviyo.my.salesforce.com;
+        script-src 'report-sample' 'strict-dynamic' 'unsafe-eval'; object-src 'none';
+        base-uri 'none'; report-uri /csp/
+      Content-Type:
+      - application/vnd.api+json
+      Date:
+      - Tue, 02 Dec 2025 14:51:12 GMT
+      Ratelimit-Limit:
+      - 10, 10;w=1, 150;w=60
+      Ratelimit-Remaining:
+      - "9"
+      Ratelimit-Reset:
+      - "0"
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept, Accept-Language, Cookie
+      X-Content-Type-Options:
+      - nosniff
+      X-Envoy-Upstream-Service-Time:
+      - "270"
+      X-Klaviyo-Api-Revision:
+      - "2025-04-15"
+      X-Klaviyo-Req-Id:
+      - 67f24ef2-b4c5-46bb-8eeb-70633f119e7d
+    status: 202 Accepted
+    code: 202
+    duration: ""

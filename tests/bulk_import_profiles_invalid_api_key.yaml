@@ -1,0 +1,57 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"data":{"type":"profile-bulk-import-job","attributes":{"profiles":{"data":[{"type":"profile","attributes":{"email":"bulk1@example.com","properties":{"test_prop":"value1"}}}]}}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Authorization:
+      - Klaviyo-API-Key pk_740f5067030cfb042062f7f0762f40fa4e-invalid
+      Content-Type:
+      - application/json
+      Revision:
+      - "2025-04-15"
+    url: https://a.klaviyo.com/api/profile-bulk-import-jobs
+    method: POST
+  response:
+    body: '{"errors":[{"id":"b9462dda-44b4-4a10-8a43-5a28753e9db4","status":401,"code":"not_authenticated","title":"Authentication
+      credentials were not provided.","detail":"Missing or invalid private key.","source":{"pointer":"/data/"}}]}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Cf-Cache-Status:
+      - DYNAMIC
+      Cf-Ray:
+      - 9a7ba4181a220ef7-VNO
+      Content-Language:
+      - en-us
+      Content-Length:
+      - "227"
+      Content-Security-Policy:
+      - frame-ancestors 'self' login.bigcommerce.com *.mybigcommerce.com admin.shopify.com
+        klaviyo.file.force.com klaviyo.lightning.force.com klaviyo.my.salesforce.com;
+        script-src 'report-sample' 'strict-dynamic' 'unsafe-eval'; object-src 'none';
+        base-uri 'none'; report-uri /csp/
+      Content-Type:
+      - application/vnd.api+json
+      Date:
+      - Tue, 02 Dec 2025 14:51:12 GMT
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Vary:
+      - Accept, Accept-Language, Cookie
+      Www-Authenticate:
+      - Bearer, Klaviyo-API-Key
+      X-Content-Type-Options:
+      - nosniff
+      X-Envoy-Upstream-Service-Time:
+      - "23"
+      X-Klaviyo-Req-Id:
+      - b9462dda-44b4-4a10-8a43-5a28753e9db4
+    status: 401 Unauthorized
+    code: 401
+    duration: ""
